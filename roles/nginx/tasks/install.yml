@@ -1,0 +1,8 @@
+- name: install nginx
+  yum: name=nginx-{{ nginx_version }} state=latest
+
+- name: mkdir log-data
+  file: path={{ nginx_log_data_dir }} mode=0777 state=directory
+
+- name: ensure nginx started
+  service: name=nginx state=started enabled=yes

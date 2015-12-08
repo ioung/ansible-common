@@ -1,0 +1,7 @@
+---
+
+- name: nginx install, reconfig, reload
+  hosts: all
+  roles:
+    - nginx
+

@@ -1,0 +1,4 @@
+---
+nginx_log_data_dir: /data0/log-data
+nginx_version: 1.4.2
+app_group: none

@@ -1,0 +1,6 @@
+- name: copy php.ini
+  copy: src={{ app_group }}/php.ini dest=/usr/local/webserver/php/lib/php.ini
+
+- name: copy php-fpm.conf
+  copy: src={{ app_group }}/{{ item.value.php_fpm_conf_file }} dest=/usr/local/webserver/php/etc/{{ item.value.php_fpm_conf_file }}
+  with_dict: php_conf
