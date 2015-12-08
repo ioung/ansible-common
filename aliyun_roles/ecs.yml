@@ -1,0 +1,6 @@
+---
+
+- name: ahout ecs
+  hosts: all
+  roles:
+    - ecs
