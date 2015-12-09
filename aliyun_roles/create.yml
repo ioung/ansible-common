@@ -1,0 +1,14 @@
+---
+
+- hosts: all
+  gather_facts: False
+
+  vars_prompt:
+    - name: "dir"
+      prompt: "input dir"
+      private: no
+      default: data
+
+  tasks:
+    - name: list dir info
+      shell: touch  /tmp/{{ dir }} 
