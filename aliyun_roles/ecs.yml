@@ -1,6 +1,7 @@
 ---
 
-- name: ahout ecs
+- name: about ecs
   hosts: all
+  gather_facts: False
   roles:
     - ecs
