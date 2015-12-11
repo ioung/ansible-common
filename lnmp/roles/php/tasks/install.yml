@@ -1,0 +1,14 @@
+- name: install php
+  yum: name=php-{{ php_version }} state=latest
+
+- name: mkdir /data0/log-data
+  file: path={{ php_log_data_dir }} state=directory
+
+- name: copy init script
+  template: src=php-fpm.j2 dest=/etc/init.d/{{ item.value.php_fpm_service }} mode=755
+  with_dict: php_conf
+
+- name: enable php as service
+  service: name={{ item.value.php_fpm_service }} enabled=yes state=started
+  with_dict: php_conf
+

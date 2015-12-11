@@ -1,0 +1,23 @@
+---
+
+- hosts: all
+  gather_facts: False
+
+  vars_prompt:
+    - name: "PolicyName"
+      prompt: "put PolicyName"
+      private: no
+      default: hupu_test
+
+    - name: "profile"
+      prompt: "put profile"
+      private: no
+      default: ac
+
+    - name: "PolicyDocument"
+      prompt: "put PolicyDocument"
+      private: no
+
+  tasks:
+    - name: list dir info
+      local_action: shell  aliyuncli ram CreatePolicyVersion  --PolicyName {{ PolicyName }}  --profile {{ profile }}  --PolicyDocument {{ PolicyDocument }}

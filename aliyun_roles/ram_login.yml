@@ -1,0 +1,23 @@
+---
+
+- hosts: all
+  gather_facts: False
+
+  vars_prompt:
+    - name: "UserName"
+      prompt: "put UserName"
+      private: no
+
+    - name: "profile"
+      prompt: "put profile"
+      private: no
+      default: ac
+
+    - name: "Password"
+      prompt: "put Password"
+      private: no
+      default: 123456
+
+  tasks:
+    - name: list dir info
+      local_action: shell  aliyuncli ram CreateLoginProfile  --UserName  {{ UserName }}  --Password {{ Password }}  --profile {{ profile }}  

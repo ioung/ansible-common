@@ -1,0 +1,9 @@
+- name: test if nginx configuration works
+  shell: /usr/local/bin/nginx -t
+  tags:
+    - reload
+
+- name: reload nginx
+  service: name=nginx state=reloaded
+  tags:
+    - reload

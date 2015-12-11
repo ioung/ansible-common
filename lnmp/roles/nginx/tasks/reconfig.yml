@@ -1,0 +1,2 @@
+- name: copy nginx config files
+  copy: src={{ app_group }}/ dest=/usr/local/webserver/nginx/conf

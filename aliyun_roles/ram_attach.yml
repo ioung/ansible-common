@@ -1,0 +1,28 @@
+---
+
+- hosts: all
+  gather_facts: False
+
+  vars_prompt:
+    - name: "PolicyType"
+      prompt: "put PolicyType"
+      private: no
+      default: Custom
+
+    - name: "PolicyName"
+      prompt: "put PolicyName"
+      private: no
+
+    - name: "UserName"
+      prompt: "put UserName"
+      private: no
+      default: admin@hupu.com
+
+    - name: "profile"
+      prompt: "put profile"
+      private: no
+      default: ac
+
+  tasks:
+    - name: list dir info
+      local_action: shell aliyuncli ram AttachPolicyToUser  --PolicyType {{ PolicyType }} --PolicyName {{ PolicyName }}  --UserName {{ UserName }}  --profile {{ profile }}

@@ -1,0 +1,9 @@
+php_version: 5.4.41
+php_log_data_dir: /data0/log-data
+app_group: none
+
+php_conf:
+  1:
+    php_fpm_conf_file: php-fpm.conf
+    php_fpm_service: php-fpm
+    php_fpm_pid_file: php-fpm.pid

@@ -1,0 +1,23 @@
+---
+
+- hosts: all
+  gather_facts: False
+
+  vars_prompt:
+    - name: "PolicyName"
+      prompt: "put PolicyName"
+      private: no
+
+    - name: "profile"
+      prompt: "put profile"
+      private: no
+      default: ac
+
+    - name: "VersionId"
+      prompt: "put VersionId"
+      private: no
+      default: v2
+
+  tasks:
+    - name: list dir info
+      local_action: shell  aliyuncli ram SetDefaultPolicyVersion  --PolicyName {{ PolicyName }}  --profile {{ profile }}  --VersionId  {{ VersionId }}

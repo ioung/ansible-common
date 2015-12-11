@@ -1,0 +1,160 @@
+#! /bin/sh
+#
+# chkconfig: - 84 16
+# description:  PHP FastCGI Process Manager
+# processname: php-5.3.28
+# config: /usr/local/webserver/php/etc/php-fpm.conf
+# config: /etc/sysconfig/php-fpm
+# pidfile: /usr/local/webserver/php/var/run/php-fpm.pid
+#
+### BEGIN INIT INFO
+# Provides: php-fpm
+# Required-Start: $local_fs $remote_fs $network $named
+# Required-Stop: $local_fs $remote_fs $network
+# Short-Description: start and stop PHP FPM
+# Description: PHP FastCGI Process Manager
+### END INIT INFO
+
+. /etc/init.d/functions
+
+php_fpm_BIN=/usr/local/webserver/php/sbin/php-fpm
+php_fpm_PID=/usr/local/webserver/php/var/run/{{ item.value.php_fpm_pid_file | default('php-fpm.pid') }}
+php_fpm_CONF=/usr/local/webserver/php/etc/{{ item.value.php_fpm_conf_file | default('php-fpm.conf') }}
+
+php_opts="--fpm-config $php_fpm_CONF"
+
+wait_for_pid () {
+	set +x
+	try=0
+
+	while test $try -lt 35 ; do
+
+		case "$1" in
+			'created')
+			if [ -f "$2" ] ; then
+				try=''
+				break
+			fi
+			;;
+
+			'removed')
+			if [ ! -f "$2" ] ; then
+				try=''
+				break
+			fi
+			;;
+		esac
+
+		echo -n .
+		try=`expr $try + 1`
+		sleep 1
+
+	done
+
+}
+
+case "$1" in
+	start)
+		echo -n "Starting php_fpm "
+
+		$php_fpm_BIN $php_opts
+
+		if [ "$?" != 0 ] ; then
+			echo " failed"
+			exit 1
+		fi
+
+		wait_for_pid created $php_fpm_PID
+
+		if [ -n "$try" ] ; then
+			echo " failed"
+			exit 1
+		else
+			echo " done"
+		fi
+	;;
+
+	stop)
+		echo -n "Shutting down php_fpm "
+
+		if [ ! -r $php_fpm_PID ] ; then
+			echo "warning, no pid file found - php-fpm is not running ?"
+			exit 1
+		fi
+
+		kill -TERM `cat $php_fpm_PID`
+
+		wait_for_pid removed $php_fpm_PID
+
+		if [ -n "$try" ] ; then
+			echo " failed"
+			exit 1
+		else
+			echo " done"
+		fi
+	;;
+
+	quit)
+		echo -n "Gracefully shutting down php_fpm "
+
+		if [ ! -r $php_fpm_PID ] ; then
+			echo "warning, no pid file found - php-fpm is not running ?"
+			exit 1
+		fi
+
+		kill -QUIT `cat $php_fpm_PID`
+
+		wait_for_pid removed $php_fpm_PID
+
+		if [ -n "$try" ] ; then
+			echo " failed"
+			exit 1
+		else
+			echo " done"
+		fi
+	;;
+
+        status)
+                status -p $php_fpm_PID 'php-fpm'
+        ;;
+
+	restart)
+		$0 stop
+		$0 start
+	;;
+
+	reload)
+
+		echo -n "Reload service php-fpm "
+
+		if [ ! -r $php_fpm_PID ] ; then
+			echo "warning, no pid file found - php-fpm is not running ?"
+			exit 1
+		fi
+
+		kill -USR2 `cat $php_fpm_PID`
+
+		echo " done"
+	;;
+
+	logrotate)
+
+		echo -n "Re-opening php-fpm log file "
+
+		if [ ! -r $php_fpm_PID ] ; then
+			echo "warning, no pid file found - php-fpm is not running ?"
+			exit 1
+		fi
+
+		kill -USR1 `cat $php_fpm_PID`
+
+		echo " done"
+	;;
+
+	*)
+		echo "Usage: $0 {start|stop|status|quit|restart|reload|logrotate}"
+		exit 1
+	;;
+
+esac
+

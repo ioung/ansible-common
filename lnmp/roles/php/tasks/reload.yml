@@ -1,0 +1,5 @@
+- name: ensure php reloaded
+  service: name={{ item.value.php_fpm_service }} state=reloaded
+  with_dict: php_conf
+  tags:
+    - reload
