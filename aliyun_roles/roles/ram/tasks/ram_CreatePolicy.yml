@@ -1,16 +1,2 @@
 - name: list dir info
-  vars_prompt:
-    - name: "PolicyName"
-      prompt: "put PolicyName"
-      private: no
-      default: hupu_test
-
-    - name: "profile"
-      prompt: "put profile"
-      private: no
-      default: ac
-
-    - name: "PolicyDocument"
-      prompt: "put PolicyDocument"
-      private: no
   local_action: shell  aliyuncli ram CreatePolicy --PolicyName {{ PolicyName }}  --profile {{ profile }}  --PolicyDocument {{ PolicyDocument }}
