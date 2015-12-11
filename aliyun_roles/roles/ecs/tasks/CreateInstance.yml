@@ -1,4 +1,86 @@
-- name: Describe ecs info
-  shell: aliyuncli ecs DescribeInstances --filter Instances.Instance[*].[InstanceId,InstanceName] --profile {{profile}}
-  register: ABC
-- debug: msg="Instance List {{ABC.stdout}}"
+---
+
+- hosts: all
+  gather_facts: False
+
+  vars_prompt:
+    - name: "RegionId"
+      prompt: "put RegionId: \n
+         ap-southeast-1 \n
+         cn-shenzhen    \n
+         cn-qingdao     \n
+         cn-beijing     \n
+         cn-shanghai    \n
+         cn-hongkong    \n
+         cn-hangzhou    \n
+         us-west-1      \n "
+      private: no
+      default: cn-hangzhou
+
+    - name: "profile"
+      prompt: "put profile"
+      private: no
+      default: ac
+
+    - name: "ImageId"
+      prompt: "put ImageId"
+      private: no
+      default: centos6u5_64_20G_aliaegis_20150130.vhd
+
+    - name: "InstanceType"
+      prompt: "put InstanceType:  \n
+         ecs.t1.small 	1C1M  \n
+         ecs.s1.small 	1C2M  \n
+         ecs.s1.medium 	1C4M  \n
+         ecs.s1.large 	1C8M  \n
+         ecs.s2.small 	2C2M  \n
+         ecs.s2.large 	2C4M  \n
+         ecs.s2.xlarge 	2C8M  \n
+         ecs.s2.2xlarge 2C16M  \n
+         ecs.s3.medium 	4C4M  \n
+         ecs.s3.large 	4C8M  \n
+         ecs.m1.medium 	4C16M  \n
+         ecs.m2.medium 	4C32M  \n
+         ecs.m1.xlarge 	8C32M  \n
+         ecs.c1.small 	8C8M  \n
+         ecs.c1.large 	8C16M  \n
+         ecs.c2.medium 	16C16M  \n
+         ecs.c2.large 	16C32M  \n
+         ecs.c2.xlarge 	16C64M  \n"
+      private: no
+      default: ecs.s3.medium
+
+    - name: "SecurityGroupId"
+      prompt: "put SecurityGroupId"
+      private: no
+      default: sg-23apzcd6t
+
+    - name: "InstanceChargeType"
+      prompt: "put InstanceChargeType"
+      private: no
+      default: PostPaid
+
+    - name: "Password"
+      prompt: "put Password"
+      private: yes
+
+    - name: "Hostname"
+      prompt: "put Hostname"
+      private: no  
+
+    - name: "InstanceName"
+      prompt: "put InstanceName"
+      private: no
+
+  tasks:
+    - name: list dir info
+      local_action: shell  aliyuncli ecs CreateInstance 
+                        --RegionId {{ RegionId }}
+                        --ImageId {{ ImageId }}
+                        --InstanceType {{ InstanceType }}
+                        --SecurityGroupId {{ SecurityGroupId }}
+                        --InstanceChargeType {{ InstanceChargeType }}
+                        --profile {{ profile }}
+                        --Password  {{ Password }}
+                        --Hostname {{ Hostname }}
+                        --InstanceName {{ InstanceName }}
