@@ -16,7 +16,6 @@
     - name: "Password"
       prompt: "put Password"
       private: no
-      default: 123456
 
   tasks:
     - name: list dir info
