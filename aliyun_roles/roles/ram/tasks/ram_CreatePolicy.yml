@@ -1,8 +1,4 @@
----
-
-- hosts: all
-  gather_facts: False
-
+- name: list dir info
   vars_prompt:
     - name: "PolicyName"
       prompt: "put PolicyName"
@@ -17,7 +13,4 @@
     - name: "PolicyDocument"
       prompt: "put PolicyDocument"
       private: no
-
-  tasks:
-    - name: list dir info
-      local_action: shell  aliyuncli ram CreatePolicy --PolicyName {{ PolicyName }}  --profile {{ profile }}  --PolicyDocument {{ PolicyDocument }}
+  local_action: shell  aliyuncli ram CreatePolicy --PolicyName {{ PolicyName }}  --profile {{ profile }}  --PolicyDocument {{ PolicyDocument }}
