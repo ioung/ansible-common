@@ -84,3 +84,5 @@
                         --Password  {{ Password }}
                         --Hostname {{ Hostname }}
                         --InstanceName {{ InstanceName }}
+       register: InstanceId
+    - debug: msg="InstanceId is {{InstanceId.stdout}}"
