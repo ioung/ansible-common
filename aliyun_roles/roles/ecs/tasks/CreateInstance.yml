@@ -23,7 +23,9 @@
       default: ac
 
     - name: "ImageId"
-      prompt: "put ImageId"
+      prompt: "put ImageId   \n
+      m-23xlodrsh----hupu  \n
+      centos6u5_64_20G_aliaegis_20150130.vhd---default"
       private: no
       default: centos6u5_64_20G_aliaegis_20150130.vhd
 
@@ -51,12 +53,16 @@
       default: ecs.s3.medium
 
     - name: "SecurityGroupId"
-      prompt: "put SecurityGroupId"
+      prompt: "put SecurityGroupId:   \n
+        G1130975677199235----hupu  \n
+        sg-23apzcd6t---------ac"
       private: no
       default: sg-23apzcd6t
 
     - name: "InstanceChargeType"
-      prompt: "put InstanceChargeType"
+      prompt: "put InstanceChargeType:  \n
+       PrePaid ----Period 1  \n
+       PostPaid \n"
       private: no
       default: PostPaid
 
@@ -84,5 +90,5 @@
                         --Password  {{ Password }}
                         --Hostname {{ Hostname }}
                         --InstanceName {{ InstanceName }}
-       register: InstanceId
+      register: InstanceId
     - debug: msg="InstanceId is {{InstanceId.stdout}}"

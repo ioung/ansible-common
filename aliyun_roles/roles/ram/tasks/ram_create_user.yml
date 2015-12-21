@@ -1,0 +1,18 @@
+---
+
+- hosts: all
+  gather_facts: False
+
+  vars_prompt:
+    - name: "UserName"
+      prompt: "put UserName"
+      private: no
+      default: hupu_test
+
+    - name: "profile"
+      prompt: "put profile"
+      private: no
+      default: ac
+  tasks:
+    - name: list dir info
+      local_action: shell  aliyuncli ram CreateUser  --UserName {{ UserName }}  --profile {{ profile }} 
