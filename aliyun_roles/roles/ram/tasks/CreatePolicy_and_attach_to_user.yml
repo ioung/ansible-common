@@ -1,0 +1,41 @@
+---
+
+- hosts: all
+  gather_facts: False
+
+  vars_prompt:
+    - name: "PolicyName"
+      prompt: "put PolicyName"
+      private: no
+
+    - name: "profile"
+      prompt: "put profile"
+      private: no
+      default: ac
+
+    - name: "PolicyDocument"
+      prompt: "put PolicyDocument"
+      private: no
+
+    - name: "UserName"
+      prompt: "put UserName"
+      private: no
+
+    - name: "PolicyType"
+      prompt: "put PolicyType"
+      private: no
+      default: Custom
+
+
+
+  tasks:
+    - name: create policy
+      local_action:   shell aliyuncli ram CreatePolicy --PolicyName {{ PolicyName }}  --profile {{ profile }}  --PolicyDocument {{ PolicyDocument }}
+    - name: create user
+      local_action:   shell aliyuncli ram CreateUser  --UserName {{ UserName }}  --profile {{ profile }}
+    - name: create ak
+      local_action:   shell aliyuncli ram CreateAccessKey --UserName {{ UserName }}  --profile {{ profile }}
+      register: AccessKey
+    - debug: msg="accessKey is {{AccessKey.stdout}}"
+    - name: attach policy
+      local_action: shell aliyuncli ram AttachPolicyToUser  --PolicyType {{ PolicyType }} --PolicyName {{ PolicyName }}  --UserName {{ UserName }}  --profile {{ profile }}

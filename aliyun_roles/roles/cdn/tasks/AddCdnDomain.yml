@@ -1,0 +1,45 @@
+---
+
+- hosts: all
+  gather_facts: False
+
+  vars_prompt:
+    - name: "DomainName"
+      prompt: "put DomainName"
+      private: no
+
+    - name: "CdnType"
+      prompt: "put CdnType:  \n
+      web    \n
+      download  \n
+      video  \n
+      liveStream \n
+      httpsDelivery  \n"
+      private: no
+      default: web
+
+    - name: "SourceType"
+      prompt: "put SourceType:  \n
+      ipaddr   \n
+      domain  \n
+      oss  \n"
+      private: no
+      default: oss 
+
+    - name: "Sources"
+      prompt: "put Sources"
+      private: no
+      default: hupu-i1i5.oss-cn-hangzhou-internal.aliyuncs.com
+
+    - name: "profile"
+      prompt: "put profile"
+      private: no
+      default: ac
+  tasks:
+    - name: list dir info
+      local_action: shell  aliyuncli cdn AddCdnDomain 
+                        --DomainName {{ DomainName }}
+                        --CdnType {{ CdnType }}
+                        --SourceType {{ SourceType }}
+                        --Sources {{ Sources }}
+                        --profile {{ profile }}

@@ -1,0 +1,4 @@
+- name: Describe ecs info
+  shell: aliyuncli ecs DescribeInstances --filter Instances.Instance[*].[InstanceId,InstanceName] --profile {{profile}}
+  register: ABC
+- debug: msg="Instance List {{ABC.stdout}}"

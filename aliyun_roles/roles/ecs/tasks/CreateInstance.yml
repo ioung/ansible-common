@@ -20,14 +20,14 @@
     - name: "profile"
       prompt: "put profile"
       private: no
-      default: ac
+      default: default
 
     - name: "ImageId"
       prompt: "put ImageId   \n
       m-23xlodrsh----hupu  \n
       centos6u5_64_20G_aliaegis_20150130.vhd---default"
       private: no
-      default: centos6u5_64_20G_aliaegis_20150130.vhd
+      default: m-23xlodrsh
 
     - name: "InstanceType"
       prompt: "put InstanceType:  \n
@@ -57,7 +57,7 @@
         G1130975677199235----hupu  \n
         sg-23apzcd6t---------ac"
       private: no
-      default: sg-23apzcd6t
+      default: G1130975677199235
 
     - name: "InstanceChargeType"
       prompt: "put InstanceChargeType:  \n
